@@ -16,7 +16,7 @@ export const site = {
 } as const;
 
 export const analytics = {
-  gtmId: import.meta.env.PUBLIC_GTM_ID || '',
+  gtmId: import.meta.env.PUBLIC_GTM_ID || 'GTM-WVJHPWS4',
   ga4Id: import.meta.env.PUBLIC_GA4_ID || '',
   searchConsoleVerification: import.meta.env.PUBLIC_GSC_VERIFICATION || '',
 };
