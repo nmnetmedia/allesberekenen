@@ -147,7 +147,7 @@ export default function OvulatieCalculator({ buildDate }: { buildDate: string })
       </div>
       {cycles && (
         <div class="calc-section" style={{ display: 'grid', gap: '14px' }}>
-          <h3 style={{ fontSize: '1rem' }}>Kalender</h3>
+          <h2 style={{ fontSize: '1rem' }}>Kalender</h2>
           <div class="cal-legend" aria-hidden="true">
             <span>
               <i style={{ background: '#fde8ec' }} /> Menstruatie

@@ -102,7 +102,7 @@ export default function HypotheekCalculator() {
       </div>
       {result && (
         <div class="calc-section" style={{ display: 'grid', gap: '16px' }}>
-          <h3 style={{ fontSize: '1rem' }}>Rente en aflossing per jaar</h3>
+          <h2 style={{ fontSize: '1rem' }}>Rente en aflossing per jaar</h2>
           <StackedBars
             data={result.rows.map((r) => ({ label: String(r.year), a: r.principal, b: r.interest }))}
             seriesA={{ name: 'Aflossing', color: 'var(--accent)' }}

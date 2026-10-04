@@ -45,7 +45,7 @@ export const hypotheek: CalculatorContent = {
       title: 'Annuïteitenhypotheek of lineaire hypotheek?',
       html: `
 <div class="table-wrap"><table>
-  <thead><tr><th></th><th>Annuïtair</th><th>Lineair</th></tr></thead>
+  <thead><tr><th>Kenmerk</th><th>Annuïtair</th><th>Lineair</th></tr></thead>
   <tbody>
     <tr><td>Maandlast bij start</td><td>Lager</td><td>Hoger</td></tr>
     <tr><td>Verloop maandlast (bruto)</td><td>Gelijk</td><td>Dalend</td></tr>

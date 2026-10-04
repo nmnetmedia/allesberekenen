@@ -31,8 +31,11 @@ const enabled = Boolean(gtmId || ga4Id);
         gtag('config', ga4Id, { anonymize_ip: true });
       }
     };
-    // Laden na de eerste interactie of na idle, zodat analytics de calculator nooit vertraagt.
-    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 3000 }); else setTimeout(start, 1500);
+    // Laden bij de eerste interactie (of uiterlijk 7 s na het laden), zodat tags de pagina nooit vertragen.
+    var started = false;
+    var go = function () { if (started) return; started = true; start(); };
+    ['scroll', 'pointerdown', 'keydown', 'touchstart', 'mousemove'].forEach(function (e) { window.addEventListener(e, go, { once: true, passive: true }); });
+    window.addEventListener('load', function () { setTimeout(go, 7000); });
   </script>
 )}
 {enabled && (

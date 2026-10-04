@@ -68,7 +68,7 @@ export default function RenteCalculator() {
       </div>
       {result && (
         <div class="calc-section" style={{ display: 'grid', gap: '16px' }}>
-          <h3 style={{ fontSize: '1rem' }}>Groei per jaar</h3>
+          <h2 style={{ fontSize: '1rem' }}>Groei per jaar</h2>
           <StackedBars
             data={result.rows.map((r) => ({ label: String(r.year), a: r.contributions, b: r.interest }))}
             seriesA={{ name: 'Inleg', color: 'var(--accent)' }}
