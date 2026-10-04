@@ -121,17 +121,16 @@ export const categories: Category[] = [
     slug: 'werk-inkomen',
     name: 'Werk & inkomen',
     icon: 'briefcase',
-    seoTitle: 'Werk & inkomen – bruto netto en salaris berekenen',
-    metaDescription:
-      'Bereken je nettoloon uit je brutosalaris op basis van de belastingtarieven van 2026, inclusief vakantiegeld en bonus. Plus handige rekentools rond werk.',
+    seoTitle: 'Werk & inkomen – Bruto netto en salaris berekenen (BE & NL)',
+    metaDescription: 'Bereken je nettoloon uit je brutoloon met de officiële regels van 2026 voor België (RSZ, werkbonus, bedrijfsvoorheffing) en Nederland. Plus handige rekentools rond werk.',
     h1: 'Werk & inkomen berekenen',
     description: 'Van bruto naar netto, vakantiegeld en procentuele loonsverhoging.',
     intro:
-      '<p>Wat houd je over van je brutosalaris? Wat levert een loonsverhoging van 3% echt op? En hoeveel netto vakantiegeld komt er in mei op je rekening? Op deze pagina vind je calculators die je helpen om je inkomen te begrijpen.</p><p>De bruto-nettocalculator rekent met de officiële belastingschijven en heffingskortingen voor 2026. Omdat ieders situatie anders is, blijft de uitkomst een indicatie: je loonstrook en de jaarlijkse aangifte zijn leidend.</p>',
+      '<p>Wat houd je over van je brutoloon? Wat levert een loonsverhoging van 3% echt op? En wat verandert er als je partner minder gaat werken? Op deze pagina vind je calculators die je helpen om je inkomen te begrijpen.</p><p>De bruto-nettocalculator rekent met de officiële regels van 2026: voor België met RSZ, werkbonus en de sleutelformule voor de bedrijfsvoorheffing, voor Nederland met de belastingschijven en heffingskortingen. Omdat ieders situatie anders is, blijft de uitkomst een indicatie: je loonbrief en je jaarlijkse aangifte zijn leidend.</p>',
     groups: [
       {
         title: 'Salaris',
-        text: 'Reken je bruto maand- of jaarsalaris om naar een geschat netto bedrag, inclusief vakantiegeld, bonus en pensioenpremie.',
+        text: 'Reken je bruto maandloon om naar netto, voor België (bediende of arbeider, met gezinssituatie en kinderen) of Nederland.',
         calculators: ['bruto-netto-berekenen'],
       },
       {
@@ -146,8 +145,8 @@ export const categories: Category[] = [
         html: '<p>In Nederland betaal je loonheffing over je loon, maar je krijgt ook heffingskortingen: de algemene heffingskorting en de arbeidskorting. Beide hangen af van je inkomen. Daardoor stijgt je netto loon niet in hetzelfde tempo als je brutoloon. Rond bepaalde inkomens houd je van elke extra euro bruto zelfs minder dan de helft over.</p><p>De bruto-nettocalculator laat daarom niet alleen je netto bedrag zien, maar ook je gemiddelde belastingdruk en je marginale tarief: wat je ongeveer betaalt over je volgende verdiende euro.</p>',
       },
       {
-        title: 'België komt eraan',
-        html: '<p>De Belgische loonberekening werkt met RSZ-bijdragen, bedrijfsvoorheffing en gemeentebelasting en verschilt dus wezenlijk van de Nederlandse. We werken aan een aparte, gecontroleerde Belgische versie. Tot die tijd rekent de calculator alleen met Nederlandse tarieven.</p>',
+        title: 'België en Nederland',
+        html: '<p>De Belgische en Nederlandse loonberekening verschillen sterk. In België gaan van je brutoloon eerst RSZ-bijdragen af (met een werkbonus voor lagere lonen), daarna de bedrijfsvoorheffing volgens de sleutelformule van de FOD Financiën en een bijzondere bijdrage voor de sociale zekerheid. In Nederland betaal je loonheffing en krijg je heffingskortingen. De bruto-nettocalculator kent beide systemen: kies gewoon je land.</p>',
       },
     ],
   },

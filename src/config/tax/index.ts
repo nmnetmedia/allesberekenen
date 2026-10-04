@@ -1,8 +1,12 @@
 import { nl2026 } from './nl-2026';
-import { bePlaceholder } from './be-placeholder';
-import type { IncomeTaxConfig } from './types';
+import { be2026 } from './be-2026';
+import type { BeTaxConfig, NlTaxConfig, TaxConfig } from './types';
 
-/** Alle bekende landen/jaren. De eerste beschikbare is de standaard. */
-export const taxConfigs: IncomeTaxConfig[] = [nl2026, bePlaceholder];
-export const defaultTaxConfig = nl2026;
-export type { IncomeTaxConfig };
+/** Alle landen/jaren die de bruto-nettocalculator kent. De eerste is de standaard. */
+export const taxConfigs: TaxConfig[] = [be2026, nl2026];
+export const defaultTaxConfig: TaxConfig = be2026;
+export const defaultNlConfig: NlTaxConfig = nl2026;
+export const defaultBeConfig: BeTaxConfig = be2026;
+export type { TaxConfig, NlTaxConfig, BeTaxConfig };
+/** @deprecated */
+export type IncomeTaxConfig = NlTaxConfig;

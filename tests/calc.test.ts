@@ -203,3 +203,57 @@ describe('Hypotheek', () => {
     expect(calcMortgage(120000, 0, 10, 'annuitair')!.monthlyPayment).toBe(1000);
   });
 });
+
+import { calcSalaryBe, scaleTax, specialContribution, childReduction } from '../src/lib/calc/salary-be';
+import { be2026 } from '../src/config/tax/be-2026';
+
+describe('Bruto netto (BE 2026)', () => {
+  const base = { status: 'bediende' as const, household: 'alleenstaand' as const, children: 0, singleParent: false };
+  it('basisschaal en belastingvrije som', () => {
+    expect(scaleTax(11170, be2026.brackets)).toBeCloseTo(be2026.taxFreeAllowance.tax, 1);
+    expect(scaleTax(16710, be2026.brackets)).toBeCloseTo(4469.93, 1);
+    expect(scaleTax(29500, be2026.brackets)).toBeCloseTo(9944.05, 1);
+    expect(scaleTax(51050, be2026.brackets)).toBeCloseTo(20320.38, 1);
+  });
+  it('€ 3.500 bruto, bediende, alleenstaand', () => {
+    const r = calcSalaryBe({ ...base, gross: 3500 }, be2026)!;
+    expect(r.rsz).toBe(457.45);
+    expect(r.workBonus).toBe(0);
+    expect(r.professionalCosts).toBe(6070);
+    expect(r.withholdingTax).toBeCloseTo(617.41, 1);
+    expect(r.specialContribution).toBeCloseTo(24.74, 2);
+    expect(r.net).toBeCloseTo(2400.4, 1);
+  });
+  it('laag loon: werkbonus afgetopt op RSZ (eerst luik B)', () => {
+    const r = calcSalaryBe({ ...base, gross: 2200 }, be2026)!;
+    expect(r.rsz).toBe(0);
+    expect(r.workBonusA).toBe(127.54);
+    expect(r.workBonusB).toBe(160);
+    expect(r.fiscalWorkBonus).toBeCloseTo(126.33, 2);
+    expect(r.withholdingTax).toBeCloseTo(126.28, 1);
+    expect(r.net).toBeCloseTo(2063.28, 1);
+  });
+  it('partner zonder inkomen (huwelijksquotiënt) en 2 kinderen', () => {
+    const r = calcSalaryBe({ ...base, gross: 4000, household: 'partner-zonder-inkomen', children: 2 }, be2026)!;
+    expect(r.familyReductions).toBe(1656);
+    expect(r.withholdingTax).toBeCloseTo(269.18, 1);
+    expect(r.specialContribution).toBeCloseTo(34.35, 2);
+    expect(r.net).toBeCloseTo(3173.67, 1);
+  });
+  it('arbeider: RSZ op 108%', () => {
+    const r = calcSalaryBe({ ...base, gross: 3500, status: 'arbeider' }, be2026)!;
+    expect(r.rsz).toBeCloseTo(3500 * 1.08 * 0.1307, 2);
+  });
+  it('BBSZ en kinderen', () => {
+    expect(specialContribution(1900, 'alleenstaand', be2026)).toBe(0);
+    expect(specialContribution(8000, 'alleenstaand', be2026)).toBe(60.94);
+    expect(specialContribution(1500, 'partner-met-inkomen', be2026)).toBe(5.15);
+    expect(specialContribution(9000, 'partner-met-inkomen', be2026)).toBe(51.64);
+    expect(childReduction(9, be2026)).toBe(25860);
+    expect(childReduction(10, be2026)).toBe(29724);
+  });
+  it('bedrijfsvoorheffing wordt nooit negatief', () => {
+    const r = calcSalaryBe({ ...base, gross: 2100, children: 4 }, be2026)!;
+    expect(r.withholdingTax).toBe(0);
+  });
+});

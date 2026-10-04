@@ -1,4 +1,4 @@
-import type { IncomeTaxConfig } from '../../config/tax/types';
+import type { NlTaxConfig as IncomeTaxConfig } from '../../config/tax/types';
 
 /** Belasting en premies volksverzekeringen over het belastbaar inkomen (box 1), vóór heffingskortingen. */
 export function incomeTax(taxable: number, cfg: IncomeTaxConfig) {

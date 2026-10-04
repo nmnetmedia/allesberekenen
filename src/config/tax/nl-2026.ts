@@ -1,4 +1,4 @@
-import type { IncomeTaxConfig } from './types';
+import type { NlTaxConfig } from './types';
 
 /**
  * Nederland, belastingjaar 2026 — personen jonger dan de AOW-leeftijd.
@@ -6,7 +6,7 @@ import type { IncomeTaxConfig } from './types';
  * Werk deze waarden bij zodra de tarieven voor een nieuw jaar definitief zijn,
  * en pas `checkedOn` aan.
  */
-export const nl2026: IncomeTaxConfig = {
+export const nl2026: NlTaxConfig = {
   country: 'NL',
   year: 2026,
   available: true,
