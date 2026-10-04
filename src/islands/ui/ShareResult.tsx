@@ -68,14 +68,15 @@ export function ShareResult({ calculatorName, text, url, onReset, disabled }: Sh
       <button type="button" class="btn btn-secondary btn-sm" onClick={onCopy} disabled={disabled}>
         <Icon name="copy" size={16} /> Resultaat kopiëren
       </button>
-      {canShare && (
-        <button type="button" class="btn btn-secondary btn-sm" onClick={onShare} disabled={disabled}>
-          <Icon name="share" size={16} /> Delen
-        </button>
-      )}
       {onReset && (
         <button type="button" class="btn btn-ghost btn-sm" onClick={onReset}>
           <Icon name="reset" size={16} /> Opnieuw berekenen
+        </button>
+      )}
+      {/* Pas na het laden bekend of delen kan; achteraan zodat er niets verspringt. */}
+      {canShare && (
+        <button type="button" class="btn btn-secondary btn-sm" onClick={onShare} disabled={disabled}>
+          <Icon name="share" size={16} /> Delen
         </button>
       )}
       <span class="toast" role="status" aria-live="polite">
