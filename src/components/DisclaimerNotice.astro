@@ -1,0 +1,21 @@
+---
+import type { DisclaimerKind } from '../data/types';
+import Icon from './Icon.astro';
+interface Props {
+  kind: DisclaimerKind;
+}
+const { kind } = Astro.props;
+const text = {
+  finance:
+    'Dit is een indicatieve berekening en geen financieel advies. Controleer belangrijke financiële beslissingen altijd bij een erkend adviseur, je boekhouder of de Belastingdienst.',
+  health:
+    'Deze uitkomst is een algemene indicatie en geen medische diagnose of persoonlijk advies. Neem bij twijfel of klachten contact op met je huisarts of een andere zorgverlener.',
+  none: '',
+}[kind];
+---
+{text && (
+  <div class="notice notice-warn">
+    <Icon name="alert" size={18} />
+    <p><strong>{kind === 'finance' ? 'Indicatieve berekening.' : 'Medische disclaimer.'}</strong> {text}</p>
+  </div>
+)}

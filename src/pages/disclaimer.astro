@@ -1,0 +1,25 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site, DISCLAIMER_SHORT } from '../config/site';
+---
+<PageLayout
+  title="Disclaimer"
+  description={`De calculators van ${site.name} geven indicatieve resultaten. Lees wat dat betekent voor financiële, fiscale en medische uitkomsten.`}
+  path="/disclaimer"
+  lead={DISCLAIMER_SHORT}
+>
+  <h2>Indicatieve resultaten</h2>
+  <p>De calculators op {site.name} zijn met zorg gemaakt en worden regelmatig gecontroleerd. Toch zijn de uitkomsten altijd een indicatie. Ze zijn gebaseerd op de gegevens die je zelf invult en op algemene formules, tarieven en richtlijnen. Ze houden geen rekening met alle omstandigheden van jouw persoonlijke situatie.</p>
+
+  <h2>Geen financieel of fiscaal advies</h2>
+  <p>Uitkomsten van onder meer de bruto-netto-, hypotheek-, BTW- en rente-op-rentecalculator zijn geen financieel, fiscaal of juridisch advies. Belastingtarieven en regels kunnen veranderen. Raadpleeg voor belangrijke beslissingen een erkend financieel adviseur, je boekhouder of de Belastingdienst.</p>
+
+  <h2>Geen medisch advies</h2>
+  <p>Uitkomsten van onder meer de BMI-, caloriebehoefte- en ovulatiecalculator zijn geen medische diagnose en geen vervanging van persoonlijk advies. De ovulatiecalculator is uitdrukkelijk niet geschikt als anticonceptiemethode. Neem bij vragen of klachten contact op met je huisarts, verloskundige, diëtist of een andere zorgverlener.</p>
+
+  <h2>Aansprakelijkheid</h2>
+  <p>{site.name} is niet aansprakelijk voor schade die voortvloeit uit het gebruik van de calculators of de informatie op deze website. Zie je een fout? Meld het via <a href="/contact">de contactpagina</a>, dan zoeken we het uit.</p>
+
+  <h2>Externe links</h2>
+  <p>We verwijzen naar externe bronnen, zoals de Belastingdienst en het Voedingscentrum. We hebben geen invloed op de inhoud van die websites.</p>
+</PageLayout>

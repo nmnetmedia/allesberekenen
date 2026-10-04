@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import CalculatorCard from './CalculatorCard.astro';
+import CategoryCard from './CategoryCard.astro';
+import type { Category } from '../data/types';
+import { categories } from '../data/categories';
+import { calculatorBySlug, calculatorsInCategory } from '../data/calculators';
+import { breadcrumbLd, collectionPageLd } from '../lib/seo';
+
+interface Props {
+  category: Category;
+}
+const { category } = Astro.props;
+const items = calculatorsInCategory(category.key);
+const others = categories.filter((c) => c.key !== category.key);
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: category.name, href: `/${category.slug}` },
+];
+---
+<BaseLayout
+  title={category.seoTitle}
+  description={category.metaDescription}
+  path={`/${category.slug}`}
+  activeNav={`/${category.slug}`}
+  jsonLd={[breadcrumbLd(crumbs), collectionPageLd(category.h1, `/${category.slug}`, category.metaDescription, items)]}
+>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <h1 style="margin-top:14px">{category.h1}</h1>
+      <div class="prose" style="max-width:720px;margin-top:14px"><Fragment set:html={category.intro} /></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <h2 class="visually-hidden">Calculators in {category.name}</h2>
+      <div class="card-grid">
+        {items.map((c) => <CalculatorCard calc={c} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container container-narrow prose">
+      {category.groups.map((g) => (
+        <>
+          <h2>{g.title}</h2>
+          <p>{g.text}</p>
+          <ul>
+            {g.calculators.map((slug) => {
+              const c = calculatorBySlug(slug);
+              return c && <li><a href={`/${c.slug}`}>{c.name}</a>: {c.description}</li>;
+            })}
+          </ul>
+        </>
+      ))}
+      {category.body.map((b) => (
+        <>
+          <h2>{b.title}</h2>
+          <Fragment set:html={b.html} />
+        </>
+      ))}
+    </div>
+  </section>
+
+  <section class="section section-subtle">
+    <div class="container">
+      <div class="section-head"><div><h2>Andere categorieën</h2></div><a href="/calculators">Alle calculators →</a></div>
+      <div class="card-grid">{others.map((c) => <CategoryCard category={c} />)}</div>
+    </div>
+  </section>
+</BaseLayout>

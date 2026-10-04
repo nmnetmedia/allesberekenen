@@ -1,0 +1,44 @@
+---
+import { site, footerNav, DISCLAIMER_SHORT } from '../config/site';
+import { categories } from '../data/categories';
+import { calculators } from '../data/calculators';
+import Logo from './Logo.astro';
+
+const year = new Date().getFullYear();
+const money = calculators.filter((c) => c.category === 'geld' || c.category === 'werk-inkomen');
+const other = calculators.filter((c) => !money.includes(c));
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo"><Logo /><span>{site.name}</span></a>
+        <p>Snelle, gratis en zorgvuldig uitgelegde calculators voor Nederland en Vlaanderen.</p>
+      </div>
+      <div class="footer-col">
+        <h2>Categorieën</h2>
+        <ul>
+          {categories.map((c) => <li><a href={`/${c.slug}`}>{c.name}</a></li>)}
+          <li><a href="/calculators">Alle calculators</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h2>Geld & werk</h2>
+        <ul>{money.map((c) => <li><a href={`/${c.slug}`}>{c.name}</a></li>)}</ul>
+      </div>
+      <div class="footer-col">
+        <h2>Overige</h2>
+        <ul>{other.map((c) => <li><a href={`/${c.slug}`}>{c.name}</a></li>)}</ul>
+      </div>
+      <div class="footer-col">
+        <h2>Over {site.name}</h2>
+        <ul>{footerNav.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+    </div>
+    <p class="footer-disclaimer">{DISCLAIMER_SHORT}</p>
+    <div class="footer-bottom">
+      <span>© {year} {site.name}</span>
+      <span>Berekeningen gebeuren in je browser. We slaan je invoer niet op.</span>
+    </div>
+  </div>
+</footer>

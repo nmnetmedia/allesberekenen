@@ -1,0 +1,19 @@
+---
+/**
+ * Veelgestelde vragen, altijd zichtbaar (niet ingeklapt) zodat bezoekers ze direct kunnen lezen.
+ * Bewust zonder FAQPage-schema: de vragen zijn er voor de lezer, niet voor rich snippets.
+ */
+import type { Faq } from '../data/types';
+interface Props {
+  items: Faq[];
+}
+const { items } = Astro.props;
+---
+<div class="faq">
+  {items.map((f) => (
+    <div class="faq-item">
+      <h3>{f.q}</h3>
+      <Fragment set:html={f.a} />
+    </div>
+  ))}
+</div>

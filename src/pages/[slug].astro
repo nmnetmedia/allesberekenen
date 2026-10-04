@@ -1,0 +1,30 @@
+---
+/**
+ * Eén dynamische route voor calculatorpagina's (/btw-berekenen) en
+ * categoriepagina's (/geld). Calculators staan bewust direct onder de root;
+ * categorieën dienen voor navigatie en interne links.
+ */
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import CategoryPage from '../components/CategoryPage.astro';
+import CalculatorIsland from '../components/CalculatorIsland.astro';
+import { calculators } from '../data/calculators';
+import { categories } from '../data/categories';
+import type { CalculatorContent, Category } from '../data/types';
+
+export function getStaticPaths() {
+  return [
+    ...calculators.map((calc) => ({ params: { slug: calc.slug }, props: { kind: 'calculator' as const, calc } })),
+    ...categories.map((category) => ({ params: { slug: category.slug }, props: { kind: 'category' as const, category } })),
+  ];
+}
+
+type Props = { kind: 'calculator'; calc: CalculatorContent } | { kind: 'category'; category: Category };
+const props = Astro.props as Props;
+---
+{props.kind === 'calculator' ? (
+  <CalculatorLayout calc={props.calc}>
+    <CalculatorIsland slug={props.calc.slug} />
+  </CalculatorLayout>
+) : (
+  <CategoryPage category={props.category} />
+)}

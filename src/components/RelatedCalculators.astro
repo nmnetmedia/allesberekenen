@@ -1,0 +1,29 @@
+---
+import type { CalculatorContent } from '../data/types';
+import Icon from './Icon.astro';
+interface Props {
+  items: CalculatorContent[];
+  compact?: boolean;
+}
+const { items, compact = false } = Astro.props;
+---
+{compact ? (
+  <ul class="link-list">
+    {items.map((c) => (
+      <li>
+        <a href={`/${c.slug}`}><span class="icon-tile"><Icon name={c.icon} size={16} /></span>{c.name}</a>
+      </li>
+    ))}
+  </ul>
+) : (
+  <div class="card-grid">
+    {items.map((c) => (
+      <article class="calc-card">
+        <span class="icon-tile"><Icon name={c.icon} /></span>
+        <h3 style="font-size:1.05rem"><a href={`/${c.slug}`}>{c.name}</a></h3>
+        <p>{c.description}</p>
+        <span class="cta" aria-hidden="true">Berekenen <Icon name="arrowRight" size={16} /></span>
+      </article>
+    ))}
+  </div>
+)}

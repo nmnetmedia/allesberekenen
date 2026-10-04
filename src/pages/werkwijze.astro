@@ -1,0 +1,47 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site, DISCLAIMER_SHORT } from '../config/site';
+import { calculators } from '../data/calculators';
+import { formatIsoDate } from '../lib/format';
+---
+<PageLayout
+  title="Onze werkwijze"
+  seoTitle="Werkwijze – Zo maken en controleren we onze calculators"
+  description={`Hoe ${site.name} berekeningen maakt, test en controleert: formules, bronnen, afronding, controledatums en de grenzen van indicatieve uitkomsten.`}
+  path="/werkwijze"
+  lead="Een calculator is alleen nuttig als je erop kunt vertrouwen. Daarom leggen we hier uit hoe we onze berekeningen maken, testen en actueel houden."
+>
+  <div class="notice notice-info"><p>{DISCLAIMER_SHORT}</p></div>
+
+  <h2>1. Elke berekening begint bij een controleerbare methode</h2>
+  <p>We gebruiken alleen formules en rekenregels die openbaar en controleerbaar zijn: wiskundige standaardformules (zoals bij procenten, BTW en annuïteiten), internationaal gebruikte formules (zoals de BMI en Mifflin-St Jeor) en officiële tarieven van overheidsinstanties (zoals de belastingschijven van de Belastingdienst). Op elke calculatorpagina staat welke formule we gebruiken, met een uitgewerkt rekenvoorbeeld dat je zelf kunt narekenen.</p>
+
+  <h2>2. Bronnen en controledatum</h2>
+  <p>Gebruikt een calculator officiële tarieven, medische richtlijnen of financiële regelgeving, dan vermelden we de bron en de datum waarop we die voor het laatst hebben gecontroleerd. Tarieven die jaarlijks veranderen, zoals belastingschijven en heffingskortingen, beheren we centraal per land en per jaar. Zo gebruikt de berekening altijd dezelfde cijfers als de uitleg op de pagina.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Calculator</th><th>Laatst gecontroleerd</th></tr></thead>
+    <tbody>
+      {calculators.map((c) => <tr><td><a href={`/${c.slug}`}>{c.name}</a></td><td>{formatIsoDate(c.lastReviewed)}</td></tr>)}
+    </tbody>
+  </table></div>
+
+  <h2>3. Automatisch getest</h2>
+  <p>De rekenlogica van elke calculator staat los van de vormgeving en wordt automatisch getest met bekende uitkomsten. Denk aan: € 100 exclusief 21% BTW is € 121; een annuïteitenhypotheek van € 300.000 tegen 4% over 30 jaar kost € 1.432,25 per maand; wie op 29 februari is geboren, wordt in een gewoon jaar op 28 februari een jaar ouder. Pas als alle tests slagen, gaat een wijziging live.</p>
+
+  <h2>4. Afronding en randgevallen</h2>
+  <ul>
+    <li>We rekenen intern met volledige precisie en ronden pas af bij het tonen van de uitkomst.</li>
+    <li>Bedragen ronden we af op hele centen. Bij BTW is het BTW-bedrag altijd het verschil tussen inclusief en exclusief, zodat bedragen precies optellen.</li>
+    <li>Datums rekenen we in UTC, zodat zomer- en wintertijd geen dag kunnen verschuiven.</li>
+    <li>Ongeldige invoer, zoals delen door nul of een peildatum vóór een geboortedatum, levert een duidelijke melding op in plaats van een onzinnige uitkomst.</li>
+  </ul>
+
+  <h2>5. Wie schrijft de content?</h2>
+  <p>De uitleg bij onze calculators wordt geschreven door de redactie van {site.name}. We werken op dit moment niet samen met externe artsen, diëtisten, fiscalisten of financieel adviseurs, en we doen ook niet alsof. Wanneer een pagina in de toekomst inhoudelijk wordt gecontroleerd door een specialist, vermelden we diens naam en functie op die pagina.</p>
+
+  <h2>6. Indicatief, geen advies</h2>
+  <p>Onze calculators geven een indicatie op basis van jouw invoer en algemene regels. Ze kennen jouw volledige situatie niet. Voor financiële beslissingen, zoals een hypotheek, en voor vragen over je gezondheid, raden we je aan contact op te nemen met een bevoegde specialist. Bij financiële en gezondheidsgerelateerde calculators staat dit ook nadrukkelijk op de pagina zelf.</p>
+
+  <h2>7. Fout gevonden?</h2>
+  <p>Ondanks onze zorg kan er iets misgaan. Zie je een fout in een berekening of uitleg, of is een tarief veranderd? Laat het ons weten via <a href="/contact">de contactpagina</a>. We controleren elke melding en passen de pagina zo nodig aan, inclusief de controledatum.</p>
+</PageLayout>

@@ -1,0 +1,16 @@
+---
+import type { Example } from '../data/types';
+interface Props {
+  examples: Example[];
+}
+const { examples } = Astro.props;
+---
+<div class="examples">
+  {examples.map((e) => (
+    <div class="example">
+      <h3>{e.title}</h3>
+      <p>{e.text}</p>
+      <p class="answer">{e.answer}</p>
+    </div>
+  ))}
+</div>

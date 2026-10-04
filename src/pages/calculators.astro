@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CalculatorCard from '../components/CalculatorCard.astro';
+import Icon from '../components/Icon.astro';
+import { categories } from '../data/categories';
+import { calculators } from '../data/calculators';
+import { breadcrumbLd, collectionPageLd } from '../lib/seo';
+
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Alle calculators', href: '/calculators' },
+];
+const description = `Overzicht van alle ${calculators.length} gratis calculators: BTW, percentage, BMI, leeftijd, bruto-netto, hypotheek, rente op rente, caloriebehoefte, m² en ovulatie.`;
+---
+<BaseLayout
+  title="Alle calculators – Overzicht van onze gratis rekentools"
+  description={description}
+  path="/calculators"
+  activeNav="/calculators"
+  jsonLd={[breadcrumbLd(crumbs), collectionPageLd('Alle calculators', '/calculators', description, calculators)]}
+>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <h1 style="margin-top:14px">Alle calculators</h1>
+      <p>Alle rekentools op één plek, gegroepeerd per onderwerp. Elke calculator is gratis, werkt direct in je browser en legt uit hoe de berekening werkt.</p>
+    </div>
+  </section>
+  {categories.map((cat) => {
+    const items = calculators.filter((c) => c.category === cat.key);
+    if (!items.length) return null;
+    return (
+      <section class="section-sm">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="display:flex;align-items:center;gap:10px"><span class="icon-tile" style="width:34px;height:34px"><Icon name={cat.icon} size={18} /></span>{cat.name}</h2>
+              <p>{cat.description}</p>
+            </div>
+            <a href={`/${cat.slug}`}>Meer over {cat.name.toLowerCase()} →</a>
+          </div>
+          <div class="card-grid">{items.map((c) => <CalculatorCard calc={c} />)}</div>
+        </div>
+      </section>
+    );
+  })}
+  <div style="height:48px"></div>
+</BaseLayout>

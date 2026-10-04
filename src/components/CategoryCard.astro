@@ -1,0 +1,20 @@
+---
+import type { Category } from '../data/types';
+import { calculatorsInCategory } from '../data/calculators';
+import Icon from './Icon.astro';
+interface Props {
+  category: Category;
+}
+const { category } = Astro.props;
+const items = calculatorsInCategory(category.key);
+---
+<article class="cat-card">
+  <span class="icon-tile"><Icon name={category.icon} /></span>
+  <div>
+    <h3><a href={`/${category.slug}`}>{category.name}</a></h3>
+    <p>{category.description}</p>
+    <ul>
+      {items.map((c) => <li><a href={`/${c.slug}`}>{c.shortName}</a></li>)}
+    </ul>
+  </div>
+</article>

@@ -1,0 +1,61 @@
+---
+/**
+ * Laadt Google Tag Manager of GA4 alleen als er een ID is geconfigureerd.
+ * Consent Mode v2 staat standaard op "denied" voor analytics en advertenties;
+ * pas na toestemming via de cookiebanner wordt analytics_storage "granted".
+ */
+import { analytics } from '../config/site';
+const { gtmId, ga4Id } = analytics;
+const enabled = Boolean(gtmId || ga4Id);
+---
+{enabled && (
+  <script is:inline define:vars={{ gtmId, ga4Id }}>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.__rwAnalytics = { gtm: !!gtmId, ga4: !!ga4Id };
+    var stored = null;
+    try { stored = localStorage.getItem('rw-consent'); } catch (e) {}
+    gtag('consent', 'default', {
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+      analytics_storage: stored === 'granted' ? 'granted' : 'denied',
+      wait_for_update: 500,
+    });
+    function load(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
+    var start = function () {
+      if (gtmId) {
+        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+        load('https://www.googletagmanager.com/gtm.js?id=' + gtmId);
+      } else if (ga4Id) {
+        load('https://www.googletagmanager.com/gtag/js?id=' + ga4Id);
+        gtag('js', new Date());
+        gtag('config', ga4Id, { anonymize_ip: true });
+      }
+    };
+    // Laden na de eerste interactie of na idle, zodat analytics de calculator nooit vertraagt.
+    if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 3000 }); else setTimeout(start, 1500);
+  </script>
+)}
+{enabled && (
+  <div class="consent" id="consent" hidden role="dialog" aria-live="polite" aria-label="Cookietoestemming">
+    <p>We gebruiken analytische cookies om te zien welke calculators worden gebruikt, zodat we ze kunnen verbeteren. Je kunt dit weigeren; alle calculators blijven gewoon werken. <a href="/cookiebeleid">Meer informatie</a></p>
+    <div class="actions">
+      <button type="button" class="btn btn-primary btn-sm" data-consent="granted">Accepteren</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-consent="denied">Weigeren</button>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      var el = document.getElementById('consent');
+      var v = null;
+      try { v = localStorage.getItem('rw-consent'); } catch (e) {}
+      if (!v) el.hidden = false;
+      el.addEventListener('click', function (e) {
+        var choice = e.target && e.target.getAttribute('data-consent');
+        if (!choice) return;
+        try { localStorage.setItem('rw-consent', choice); } catch (err) {}
+        gtag('consent', 'update', { analytics_storage: choice });
+        el.hidden = true;
+      });
+    })();
+  </script>
+)}

@@ -1,0 +1,20 @@
+---
+interface Props {
+  items: { id: string; title: string }[];
+  variant: 'aside' | 'mobile';
+}
+const { items, variant } = Astro.props;
+---
+{variant === 'aside' ? (
+  <nav class="toc" aria-label="Inhoudsopgave">
+    <p class="aside-title">Op deze pagina</p>
+    <ol>{items.map((i) => <li><a href={`#${i.id}`}>{i.title}</a></li>)}</ol>
+  </nav>
+) : (
+  <details class="toc-mobile">
+    <summary>Inhoudsopgave</summary>
+    <nav aria-label="Inhoudsopgave">
+      <ol>{items.map((i) => <li><a href={`#${i.id}`}>{i.title}</a></li>)}</ol>
+    </nav>
+  </details>
+)}

@@ -1,0 +1,29 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site } from '../config/site';
+---
+<PageLayout
+  title={`Over ${site.name}`}
+  seoTitle={`Over ons – Waarom we ${site.name} maken`}
+  description={`${site.name} maakt snelle, gratis en goed uitgelegde online calculators voor Nederland en Vlaanderen. Lees waarom en hoe we dat doen.`}
+  path="/over-ons"
+  lead="We maken calculators zoals we ze zelf zouden willen gebruiken: snel, rustig, eerlijk over wat ze wel en niet kunnen, en met uitleg die je echt verder helpt."
+>
+  <h2>Waarom {site.name}?</h2>
+  <p>Wie op internet iets wil uitrekenen, belandt vaak op pagina's vol advertenties, pop-ups en lange lappen tekst voordat de rekenmachine zelf in beeld komt. Dat kan beter. Bij {site.name} staat de calculator bovenaan de pagina en zie je het antwoord terwijl je typt.</p>
+  <p>Daaronder vind je uitleg voor wie meer wil weten: hoe de berekening werkt, rekenvoorbeelden, veelgemaakte fouten en antwoorden op veelgestelde vragen. Zo begrijp je niet alleen de uitkomst, maar kun je hem ook zelf controleren.</p>
+
+  <h2>Waar we voor staan</h2>
+  <ul>
+    <li><strong>Correctheid eerst.</strong> Elke berekening is gebaseerd op een controleerbare methode en wordt automatisch getest. Lees meer op <a href="/werkwijze">onze werkwijze</a>.</li>
+    <li><strong>Eerlijk over grenzen.</strong> Onze uitkomsten zijn indicaties. We zeggen dat er duidelijk bij, zeker bij geld en gezondheid.</li>
+    <li><strong>Privacy.</strong> Berekeningen gebeuren in je browser. We slaan je invoer niet op en vragen geen account.</li>
+    <li><strong>Snel en toegankelijk.</strong> De site is licht, werkt goed op mobiel en is te bedienen met toetsenbord en schermlezer.</li>
+  </ul>
+
+  <h2>Wie zitten erachter?</h2>
+  <p>{site.name} wordt gemaakt door een kleine, onafhankelijke redactie. We zijn geen bank, verzekeraar of adviesbureau en verdienen niet aan de keuzes die je na een berekening maakt. Er zijn op dit moment geen externe specialisten bij de inhoud betrokken; zodra dat wel zo is, vermelden we dat per pagina met naam en functie.</p>
+
+  <h2>Contact</h2>
+  <p>Heb je een idee voor een nieuwe calculator, een vraag of heb je een fout gevonden? We horen het graag via <a href="/contact">de contactpagina</a>.</p>
+</PageLayout>

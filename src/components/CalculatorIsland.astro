@@ -1,0 +1,33 @@
+---
+/**
+ * Kiest het juiste calculator-island. Astro vereist statische imports voor
+ * hydratatie, daarom expliciet per slug. Alleen het getoonde island laadt JS.
+ * Nieuwe calculator? Voeg hier één import en één regel toe.
+ */
+import BtwCalculator from '../islands/BtwCalculator';
+import PercentageCalculator from '../islands/PercentageCalculator';
+import BmiCalculator from '../islands/BmiCalculator';
+import LeeftijdCalculator from '../islands/LeeftijdCalculator';
+import M2Calculator from '../islands/M2Calculator';
+import CalorieCalculator from '../islands/CalorieCalculator';
+import BrutoNettoCalculator from '../islands/BrutoNettoCalculator';
+import OvulatieCalculator from '../islands/OvulatieCalculator';
+import RenteCalculator from '../islands/RenteCalculator';
+import HypotheekCalculator from '../islands/HypotheekCalculator';
+
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+const buildDate = new Date().toISOString().slice(0, 10);
+---
+{slug === 'btw-berekenen' && <BtwCalculator client:load />}
+{slug === 'percentage-berekenen' && <PercentageCalculator client:load />}
+{slug === 'bmi-berekenen' && <BmiCalculator client:load />}
+{slug === 'leeftijd-berekenen' && <LeeftijdCalculator client:load buildDate={buildDate} />}
+{slug === 'm2-berekenen' && <M2Calculator client:load />}
+{slug === 'caloriebehoefte-berekenen' && <CalorieCalculator client:load />}
+{slug === 'bruto-netto-berekenen' && <BrutoNettoCalculator client:load />}
+{slug === 'ovulatie-berekenen' && <OvulatieCalculator client:load buildDate={buildDate} />}
+{slug === 'rente-op-rente-berekenen' && <RenteCalculator client:load />}
+{slug === 'hypotheek-berekenen' && <HypotheekCalculator client:load />}

@@ -1,0 +1,50 @@
+# Bij elke push naar main: testen, bouwen en de map dist/ via FTP naar Hostinger uploaden.
+# Stel in GitHub (Settings → Secrets and variables → Actions) deze secrets in:
+#   FTP_SERVER      bijv. ftp.allesberekenen.be (of het IP uit hPanel → Bestanden → FTP-accounts)
+#   FTP_USERNAME    FTP-gebruikersnaam uit hPanel
+#   FTP_PASSWORD    FTP-wachtwoord uit hPanel
+#   FTP_SERVER_DIR  map waar de site moet komen, meestal /public_html/ (of /domains/allesberekenen.be/public_html/)
+name: Deploy naar Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+        env:
+          PUBLIC_SITE_URL: https://allesberekenen.be
+          # Vul deze in als repository variables zodra je analytics wilt gebruiken:
+          PUBLIC_GTM_ID: ${{ vars.PUBLIC_GTM_ID }}
+          PUBLIC_GA4_ID: ${{ vars.PUBLIC_GA4_ID }}
+          PUBLIC_GSC_VERIFICATION: ${{ vars.PUBLIC_GSC_VERIFICATION }}
+          PUBLIC_CONTACT_EMAIL: ${{ vars.PUBLIC_CONTACT_EMAIL }}
+
+      - name: Upload naar Hostinger (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Uploadt alleen gewijzigde bestanden en verwijdert bestanden die niet meer in de build zitten
+          # (bijgehouden via .ftp-deploy-sync-state.json op de server).
+          dangerous-clean-slate: false

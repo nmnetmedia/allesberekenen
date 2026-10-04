@@ -1,0 +1,30 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site, analytics } from '../config/site';
+const hasAnalytics = Boolean(analytics.gtmId || analytics.ga4Id);
+---
+<PageLayout
+  title="Cookiebeleid"
+  description={`Welke cookies en lokale opslag ${site.name} gebruikt en hoe je je toestemming beheert.`}
+  path="/cookiebeleid"
+  lead="We houden het zo eenvoudig mogelijk: geen advertentiecookies en geen tracking zonder toestemming."
+>
+  <h2>Functionele opslag</h2>
+  <p>We bewaren je keuze in de cookiemelding in de lokale opslag van je browser (<code>rw-consent</code>), zodat we je niet bij elk bezoek opnieuw hoeven te vragen. Deze opslag is noodzakelijk voor de werking van de site en bevat geen persoonsgegevens.</p>
+
+  <h2>Analytische cookies</h2>
+  {hasAnalytics ? (
+    <>
+      <p>Met je toestemming gebruiken we Google Analytics om te zien welke pagina's en calculators worden gebruikt. Daarbij worden cookies geplaatst, zoals <code>_ga</code> en <code>_ga_*</code>, met een bewaartermijn van maximaal twee jaar. We sturen nooit je ingevulde waarden mee.</p>
+      <p>Weiger je, dan plaatsen we geen analytische cookies. Alle calculators blijven gewoon werken.</p>
+    </>
+  ) : (
+    <p>Op dit moment plaatsen we geen analytische cookies. Als we dat in de toekomst wel doen, vragen we eerst je toestemming.</p>
+  )}
+
+  <h2>Advertentie- en trackingcookies</h2>
+  <p>We plaatsen geen advertentiecookies en geen cookies van sociale netwerken.</p>
+
+  <h2>Je toestemming wijzigen</h2>
+  <p>Wil je je keuze aanpassen? Wis de sitegegevens van {site.name} in je browserinstellingen. Bij je volgende bezoek verschijnt de cookiemelding opnieuw.</p>
+</PageLayout>

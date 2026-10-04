@@ -1,0 +1,16 @@
+---
+import type { CalculatorContent } from '../data/types';
+import Icon from './Icon.astro';
+interface Props {
+  calc: CalculatorContent;
+  headingLevel?: 'h2' | 'h3';
+}
+const { calc, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<article class="calc-card">
+  <span class="icon-tile"><Icon name={calc.icon} /></span>
+  <H style="font-size:1.05rem"><a href={`/${calc.slug}`}>{calc.name}</a></H>
+  <p>{calc.description}</p>
+  <span class="cta" aria-hidden="true">Berekenen <Icon name="arrowRight" size={16} /></span>
+</article>

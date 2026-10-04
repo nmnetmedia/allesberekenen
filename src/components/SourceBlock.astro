@@ -1,0 +1,37 @@
+---
+import type { CalculatorContent } from '../data/types';
+import { site } from '../config/site';
+import { formatIsoDate } from '../lib/format';
+interface Props {
+  calc: CalculatorContent;
+}
+const { calc } = Astro.props;
+---
+<div class="source-block">
+  <dl>
+    <dt>Laatst gecontroleerd</dt>
+    <dd><time datetime={calc.lastReviewed}>{formatIsoDate(calc.lastReviewed)}</time></dd>
+    <dt>Opgesteld door</dt>
+    <dd>{calc.author ?? `Redactie ${site.name}`}</dd>
+    {calc.reviewedBy && (
+      <>
+        <dt>Inhoudelijk gecontroleerd door</dt>
+        <dd>{calc.reviewedBy}</dd>
+      </>
+    )}
+    <dt>Methode</dt>
+    <dd>{calc.method} <a href="/werkwijze">Lees onze werkwijze</a>.</dd>
+    {calc.sources.length > 0 && (
+      <>
+        <dt>Bronnen</dt>
+        <dd>
+          <ul>
+            {calc.sources.map((s) => (
+              <li><a href={s.url} rel="noopener" target="_blank">{s.label}</a></li>
+            ))}
+          </ul>
+        </dd>
+      </>
+    )}
+  </dl>
+</div>

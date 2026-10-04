@@ -1,0 +1,31 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site, analytics } from '../config/site';
+const hasAnalytics = Boolean(analytics.gtmId || analytics.ga4Id);
+---
+<PageLayout
+  title="Privacybeleid"
+  description={`Hoe ${site.name} omgaat met je gegevens: berekeningen blijven in je browser, we slaan geen invoer op en analytics gebruiken we alleen met toestemming.`}
+  path="/privacy"
+  lead="Kort gezegd: wat je in onze calculators invult, blijft op je eigen apparaat."
+>
+  <h2>Wat je invult in een calculator</h2>
+  <p>Alle berekeningen gebeuren in je eigen browser. Bedragen, geboortedatums, lengte, gewicht en andere gegevens die je invult, worden niet naar onze servers gestuurd en niet door ons opgeslagen.</p>
+  <p>Gebruik je de knop “Resultaat kopiëren” of “Delen”, dan kan de gedeelde link je invoer bevatten (bijvoorbeeld <code>?bedrag=100</code>). Die link deel je zelf; wij ontvangen hem niet. Bedenk wel dat wie de link krijgt, je ingevulde waarden kan zien.</p>
+
+  <h2>Technische gegevens</h2>
+  <p>Zoals bij elke website verwerkt onze hostingprovider technische gegevens die nodig zijn om pagina's te tonen en de site te beveiligen, zoals je IP-adres, browsertype en het tijdstip van je bezoek. Deze gegevens gebruiken we niet om je te identificeren en worden na korte tijd verwijderd.</p>
+
+  <h2>Analytics</h2>
+  {hasAnalytics ? (
+    <p>We gebruiken Google Analytics om te meten hoe vaak pagina's en calculators worden gebruikt, zodat we ze kunnen verbeteren. We meten bijvoorbeeld dat een calculator is gebruikt, maar nooit wát je hebt ingevuld. Analytische cookies plaatsen we alleen als je daar via de cookiemelding toestemming voor geeft. Je kunt je keuze altijd wijzigen door de sitegegevens in je browser te wissen.</p>
+  ) : (
+    <p>Op dit moment gebruiken we geen analysediensten of trackingcookies. Gaan we dat in de toekomst wel doen, dan vragen we eerst je toestemming en passen we dit privacybeleid aan.</p>
+  )}
+
+  <h2>Contact met ons</h2>
+  <p>Mail je ons, dan gebruiken we je e-mailadres en bericht alleen om je te antwoorden. We bewaren je bericht niet langer dan nodig en delen het niet met derden.</p>
+
+  <h2>Je rechten</h2>
+  <p>Je hebt op grond van de Algemene verordening gegevensbescherming (AVG) het recht om je persoonsgegevens in te zien, te laten corrigeren of te laten verwijderen. Neem hiervoor contact op via <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>. Ben je het niet eens met hoe we met je gegevens omgaan, dan kun je een klacht indienen bij de Autoriteit Persoonsgegevens (Nederland) of de Gegevensbeschermingsautoriteit (België).</p>
+</PageLayout>

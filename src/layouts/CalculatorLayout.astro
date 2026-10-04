@@ -1,0 +1,129 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FormulaBlock from '../components/FormulaBlock.astro';
+import ExampleBlock from '../components/ExampleBlock.astro';
+import FAQSection from '../components/FAQSection.astro';
+import RelatedCalculators from '../components/RelatedCalculators.astro';
+import SourceBlock from '../components/SourceBlock.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import DisclaimerNotice from '../components/DisclaimerNotice.astro';
+import Icon from '../components/Icon.astro';
+import type { CalculatorContent } from '../data/types';
+import { categoryByKey } from '../data/categories';
+import { relatedCalculators } from '../data/calculators';
+import { breadcrumbLd, webApplicationLd } from '../lib/seo';
+import { formatIsoDate } from '../lib/format';
+
+interface Props {
+  calc: CalculatorContent;
+}
+const { calc } = Astro.props;
+const category = categoryByKey(calc.category);
+const related = relatedCalculators(calc);
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: category.name, href: `/${category.slug}` },
+  { name: calc.name, href: `/${calc.slug}` },
+];
+
+const toc = [
+  { id: 'over-deze-calculator', title: 'Hoe werkt de calculator?' },
+  { id: calc.howTo.id, title: calc.howTo.title },
+  ...calc.extraSections.map((s) => ({ id: s.id, title: s.title })),
+  { id: 'rekenvoorbeelden', title: 'Rekenvoorbeelden' },
+  { id: 'veelgemaakte-fouten', title: 'Veelgemaakte fouten' },
+  { id: 'veelgestelde-vragen', title: 'Veelgestelde vragen' },
+  { id: 'bron-en-methode', title: 'Bron en methode' },
+];
+---
+<BaseLayout
+  title={calc.seoTitle}
+  description={calc.metaDescription}
+  path={`/${calc.slug}`}
+  noindex={calc.noindex}
+  activeNav={`/${category.slug}`}
+  jsonLd={[breadcrumbLd(crumbs), webApplicationLd(calc)]}
+>
+  <section class="calc-hero">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <h1>{calc.h1}</h1>
+      <p class="calc-lead">{calc.lead}</p>
+      <p class="calc-meta">
+        <span><Icon name="check" size={14} /> Gratis en direct resultaat</span>
+        <span><Icon name="shield" size={14} /> Invoer blijft in je browser</span>
+        <span><Icon name="calendar" size={14} /> Gecontroleerd op <time datetime={calc.lastReviewed}>{formatIsoDate(calc.lastReviewed)}</time></span>
+      </p>
+    </div>
+  </section>
+
+  <section class="calc-stage" aria-label={`${calc.name} calculator`}>
+    <div class="container">
+      <slot />
+      {calc.disclaimer !== 'none' && <div style="margin-top:16px"><DisclaimerNotice kind={calc.disclaimer} /></div>}
+    </div>
+  </section>
+
+  <div class="container calc-layout">
+    <article class="prose">
+      <TableOfContents items={toc} variant="mobile" />
+
+      <h2 id="over-deze-calculator">Hoe werkt de calculator?</h2>
+      <Fragment set:html={calc.intro} />
+
+      <h2 id={calc.howTo.id}>{calc.howTo.title}</h2>
+      <Fragment set:html={calc.howTo.html} />
+      <FormulaBlock {...calc.formula} />
+
+      {calc.extraSections.map((s) => (
+        <>
+          <h2 id={s.id}>{s.title}</h2>
+          <Fragment set:html={s.html} />
+        </>
+      ))}
+
+      <h2 id="rekenvoorbeelden">Rekenvoorbeelden</h2>
+      <ExampleBlock examples={calc.examples} />
+
+      <h2 id="veelgemaakte-fouten">Veelgemaakte fouten</h2>
+      <ol class="mistakes">
+        {calc.mistakes.map((m, i) => (
+          <li>
+            <span class="num" aria-hidden="true">{i + 1}</span>
+            <div><strong>{m.title}</strong>{m.text}</div>
+          </li>
+        ))}
+      </ol>
+
+      <h2 id="veelgestelde-vragen">Veelgestelde vragen</h2>
+      <FAQSection items={calc.faq} />
+
+      <h2 id="bron-en-methode">Bron en methode</h2>
+      <SourceBlock calc={calc} />
+    </article>
+
+    <aside class="calc-aside" aria-label="Navigatie op deze pagina">
+      <div class="calc-aside-inner">
+        <TableOfContents items={toc} variant="aside" />
+        <div>
+          <p class="aside-title">Ook handig</p>
+          <RelatedCalculators items={related} compact />
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="section section-subtle">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Gerelateerde calculators</h2>
+          <p>Andere rekentools die vaak samen met {calc.name.toLowerCase()} worden gebruikt.</p>
+        </div>
+        <a href={`/${category.slug}`}>Alle calculators in {category.name.toLowerCase()} →</a>
+      </div>
+      <RelatedCalculators items={related} />
+    </div>
+  </section>
+</BaseLayout>

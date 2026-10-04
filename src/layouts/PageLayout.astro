@@ -1,0 +1,38 @@
+---
+/** Eenvoudige tekstpagina (trust- en juridische pagina's). */
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { breadcrumbLd } from '../lib/seo';
+import { site } from '../config/site';
+import { formatIsoDate } from '../lib/format';
+
+interface Props {
+  title: string;
+  seoTitle?: string;
+  description: string;
+  path: string;
+  lead?: string;
+  updated?: string;
+  noindex?: boolean;
+}
+const { title, seoTitle, description, path, lead, updated = site.legalUpdated, noindex } = Astro.props;
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: title, href: path },
+];
+---
+<BaseLayout title={seoTitle ?? title} description={description} path={path} noindex={noindex} jsonLd={[breadcrumbLd(crumbs)]}>
+  <section class="page-hero">
+    <div class="container container-narrow">
+      <Breadcrumbs items={crumbs} />
+      <h1 style="margin-top:14px">{title}</h1>
+      {lead && <p>{lead}</p>}
+    </div>
+  </section>
+  <div class="container container-narrow page-body">
+    <div class="prose">
+      <slot />
+      <p class="muted small" style="margin-top:2.5em">Laatst bijgewerkt: <time datetime={updated}>{formatIsoDate(updated)}</time></p>
+    </div>
+  </div>
+</BaseLayout>

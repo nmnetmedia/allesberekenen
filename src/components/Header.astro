@@ -1,0 +1,44 @@
+---
+import { site, mainNav } from '../config/site';
+import { searchIndex } from '../data/calculators';
+import Search from '../islands/Search';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  active?: string;
+}
+const { active } = Astro.props;
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo" aria-label={`${site.name}, naar de homepage`}>
+      <Logo />
+      <span>{site.name}</span>
+    </a>
+    <nav class="main-nav" aria-label="Hoofdnavigatie">
+      <ul>
+        {mainNav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={active === item.href ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <div class="header-search">
+        <Search client:idle items={searchIndex} variant="header" />
+      </div>
+      <a href="/calculators" class="btn btn-primary btn-sm btn-all">Alle calculators</a>
+      <details class="mobile-menu">
+        <summary aria-label="Menu openen"><Icon name="menu" size={20} /></summary>
+        <nav class="mobile-menu-panel" aria-label="Mobiele navigatie">
+          {mainNav.map((item) => <a href={item.href}>{item.label}</a>)}
+          <hr />
+          <a href="/calculators"><Icon name="grid" size={18} /> Alle calculators</a>
+          <a href="/werkwijze"><Icon name="shield" size={18} /> Onze werkwijze</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

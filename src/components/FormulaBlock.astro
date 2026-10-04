@@ -1,0 +1,13 @@
+---
+interface Props {
+  title: string;
+  lines: string[];
+  explanation?: string;
+}
+const { title, lines, explanation } = Astro.props;
+---
+<figure class="formula" style="margin:0">
+  <figcaption class="formula-title">{title}</figcaption>
+  {lines.map((l) => <code>{l}</code>)}
+  {explanation && <p>{explanation}</p>}
+</figure>

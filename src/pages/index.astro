@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CalculatorCard from '../components/CalculatorCard.astro';
+import Icon from '../components/Icon.astro';
+import Search from '../islands/Search';
+import { site, DISCLAIMER_SHORT } from '../config/site';
+import { calculatorBySlug, popularCalculators, searchIndex } from '../data/calculators';
+import { categories } from '../data/categories';
+import { organizationLd, websiteLd } from '../lib/seo';
+import type { CategoryKey } from '../data/types';
+
+const popular = popularCalculators();
+const pick = (slugs: string[]) => slugs.map((s) => calculatorBySlug(s)!).filter(Boolean);
+const sections: { key: CategoryKey; title: string; intro: string; slugs: string[] }[] = [
+  { key: 'geld', title: 'Geld', intro: 'BTW, procenten, rente en je hypotheek.', slugs: ['btw-berekenen', 'percentage-berekenen', 'rente-op-rente-berekenen', 'hypotheek-berekenen', 'bruto-netto-berekenen'] },
+  { key: 'gezondheid', title: 'Gezondheid', intro: 'Inzicht in je gewicht, energie en cyclus.', slugs: ['bmi-berekenen', 'caloriebehoefte-berekenen', 'ovulatie-berekenen'] },
+  { key: 'wonen', title: 'Wonen', intro: 'Verbouwen, inrichten en een huis kopen.', slugs: ['m2-berekenen', 'hypotheek-berekenen'] },
+  { key: 'datum-tijd', title: 'Datum & tijd', intro: 'Rekenen met datums, zonder fouten.', slugs: ['leeftijd-berekenen'] },
+];
+const chips = ['btw-berekenen', 'bmi-berekenen', 'bruto-netto-berekenen', 'm2-berekenen', 'percentage-berekenen'].map((s) => calculatorBySlug(s)!);
+---
+<BaseLayout
+  title={`Gratis online calculators – Bereken direct wat je wilt | ${site.name}`}
+  description="Bereken eenvoudig BTW, percentages, BMI, hypotheek, bruto-netto, leeftijd en meer met onze gratis online calculators."
+  path="/"
+  jsonLd={[websiteLd(), organizationLd()]}
+>
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>Bereken het. Direct.</h1>
+      <p class="hero-sub">Handige gratis calculators voor geld, gezondheid, wonen en dagelijks gebruik.</p>
+      <Search client:load items={searchIndex} variant="hero" placeholders={['BTW berekenen', 'BMI berekenen', 'Bruto netto', 'Hoeveel m²?']} />
+      <nav class="hero-chips" aria-label="Snel naar">
+        {chips.map((c) => <a class="chip" href={`/${c.slug}`}><Icon name={c.icon} size={14} />{c.shortName}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Populaire calculators</h2>
+          <p>De rekentools die het vaakst worden gebruikt.</p>
+        </div>
+        <a href="/calculators">Alle calculators →</a>
+      </div>
+      <div class="card-grid">{popular.map((c) => <CalculatorCard calc={c} />)}</div>
+    </div>
+  </section>
+
+  {sections.map((s, i) => {
+    const cat = categories.find((c) => c.key === s.key)!;
+    return (
+      <section class={i % 2 === 0 ? 'section section-subtle' : 'section'}>
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow"><Icon name={cat.icon} size={14} /> {s.title}</span>
+              <h2 style="margin-top:6px">{cat.h1}</h2>
+              <p>{s.intro}</p>
+            </div>
+            <a href={`/${cat.slug}`}>Bekijk {s.title.toLowerCase()} →</a>
+          </div>
+          <div class="card-grid">{pick(s.slugs).map((c) => <CalculatorCard calc={c} />)}</div>
+        </div>
+      </section>
+    );
+  })}
+
+  <section class="section">
+    <div class="container container-narrow prose">
+      <h2>Gratis calculators die gewoon kloppen</h2>
+      <p>{site.name} is een verzameling online calculators voor de vragen die je in het dagelijks leven tegenkomt. Hoeveel BTW zit er in een bedrag? Wat houd je netto over van je salaris? Wat is je BMI, hoeveel vierkante meter laminaat heb je nodig en hoe groeit je spaargeld met rente op rente? Je vult een paar gegevens in en ziet direct het antwoord, zonder account, zonder advertentiemuren en zonder wachten.</p>
+      <p>Elke calculator laat ook zien <em>hoe</em> de uitkomst tot stand komt. Bij iedere berekening vind je de gebruikte formule, uitgewerkte rekenvoorbeelden, veelgemaakte fouten en antwoorden op veelgestelde vragen. Waar we officiële tarieven of richtlijnen gebruiken, zoals de belastingschijven van de Belastingdienst of adviezen van het Voedingscentrum, vermelden we de bron en de datum waarop we die voor het laatst hebben gecontroleerd. Hoe we dat aanpakken, lees je op <a href="/werkwijze">onze werkwijze</a>.</p>
+      <p>Alle berekeningen gebeuren direct in je browser. We slaan je invoer niet op. De calculators werken op elk apparaat en zijn speciaal ontworpen om op je telefoon net zo snel en prettig te werken als op een laptop.</p>
+      <div class="notice notice-info" style="margin-top:24px"><Icon name="info" size={18} /><p>{DISCLAIMER_SHORT}</p></div>
+    </div>
+  </section>
+</BaseLayout>

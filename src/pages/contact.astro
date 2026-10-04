@@ -1,0 +1,25 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { site } from '../config/site';
+---
+<PageLayout
+  title="Contact"
+  seoTitle={`Contact – Vragen, ideeën of een fout melden | ${site.name}`}
+  description={`Neem contact op met ${site.name}: meld een fout in een berekening, stel een vraag of stel een nieuwe calculator voor.`}
+  path="/contact"
+  lead="Een fout gevonden, een vraag of een idee voor een nieuwe calculator? Laat het ons weten."
+>
+  <h2>Mail ons</h2>
+  <p>Je bereikt ons via <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>. We lezen elk bericht en proberen binnen enkele werkdagen te reageren.</p>
+
+  <h2>Een fout melden</h2>
+  <p>Vermeld bij een foutmelding graag:</p>
+  <ul>
+    <li>om welke calculator het gaat (de link naar de pagina);</li>
+    <li>welke waarden je hebt ingevuld (tip: gebruik de knop “Resultaat kopiëren”, dan krijg je een link met je invoer);</li>
+    <li>welke uitkomst je verwachtte en waarom, bijvoorbeeld met een link naar een officiële bron.</li>
+  </ul>
+
+  <h2>Wat we niet kunnen doen</h2>
+  <p>We geven geen persoonlijk financieel, fiscaal of medisch advies. Voor vragen over je eigen situatie verwijzen we je naar een erkend adviseur, de Belastingdienst, je huisarts of een andere bevoegde specialist.</p>
+</PageLayout>
