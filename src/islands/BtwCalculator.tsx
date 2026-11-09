@@ -54,7 +54,8 @@ export default function BtwCalculator() {
             onChange={(v) => set('tarief', v)}
             options={[
               { value: '21', label: '21%' },
-              { value: '9', label: '9%' },
+              { value: '12', label: '12%' },
+              { value: '6', label: '6%' },
               { value: '0', label: '0%' },
               { value: 'eigen', label: 'Eigen tarief' },
             ]}
